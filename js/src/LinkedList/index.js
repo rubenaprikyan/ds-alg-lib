@@ -4,9 +4,6 @@ function LinkedListNode(value = 0, next = null) {
     this.value = value;
     this.next  = next;
 }
-function LinkedList(args) {
-    LinkedListNode.call(this, [...args]);
-}
 
 /**
  * function search
@@ -19,7 +16,6 @@ LinkedListNode.prototype.search = function(value) {
     let current = { ...this };
 
     while(current !== null && current.value !== value) {
-        console.log(current)
         current = current.next;
     }
 
@@ -32,12 +28,11 @@ LinkedListNode.prototype.search = function(value) {
  * @param arr{Array<any>} - array of numbers as node's values
  * @returns {LinkedListNode} - returns a linked list generated from input array
  */
-LinkedList.fromArray = (arr) => {
+LinkedListNode.fromArray = (arr) => {
     const length = arr.length;
-    let root = new LinkedListNode(arr[length - 1]);
+    let root = null;
 
     for (let i = length - 1; i >= 0; i--) {
-        console.log(i);
         root = new LinkedListNode(arr[i], root);
     }
 
@@ -50,7 +45,7 @@ LinkedList.fromArray = (arr) => {
  * @param arr{Array<any>} - array of numbers as node's values
  * @returns {LinkedListNode} - returns a linked list generated from input array's reversed variant
  */
-LinkedList.fromReverseArray = (arr) => {
+LinkedListNode.fromReverseArray = (arr) => {
     const length = arr.length;
     let root = new LinkedListNode(arr[length - 1]);
 
@@ -60,23 +55,82 @@ LinkedList.fromReverseArray = (arr) => {
 
     return root;
 }
+LinkedListNode.prototype.hasCycle = function() {}
 
-LinkedListNode.prototype.toArray = function() {
-    const arr = [];
-    let current = this;
-    while(current.next !== null) {
-        arr.push(current.value);
-        current = current.next
+/**
+ * @static function removeDupsWithExtraBuffer, using extra buffer
+ * removes all duplicates from the list
+ * The Time Complexity is O(n), come to the solution with a single pass
+ * The Space Complexity is O()
+ * @param head - the head of list
+ * @returns <LinkedListNode> - head - without duplicates
+ */
+LinkedListNode.removeDupsWithExtraBuffer = (head) => {
+    const set = new Set();
+    let prev = null;
+
+    while(head) {
+       if (set.has(head.value)) {
+           // remove current node from the list
+           prev.next = head.next;
+       } else {
+           set.add(head.value);
+           prev = head;
+       }
+
+       head = head.next;
     }
-    return arr;
+
+    return head;
 }
-LinkedListNode.prototype.hasCycle = function() {
-    const head = { ...this };
+
+/**
+ * @static function removeDupsWithoutExtraBuffer, using extra buffer
+ * removes all duplicates from the list
+ * The Time Complexity is O(n), come to the solution with a single pass
+ * The Space Complexity is O(1)
+ * @param head - the head of list
+ * @returns <LinkedListNode> - head - without duplicates
+ */
+LinkedListNode.removeDupsWithExtraBuffer = (head) => {
     let current = head;
-    while() {
 
+    while (current) {
+        let runner = current;
+        while(runner.next) {
+            if(runner.next.value === current.value) {
+                runner.next = runner.next.next;
+            } else {
+                runner = runner.next;
+            }
+        }
+
+        current = current.next;
+    }
+
+    return current;
+}
+
+
+
+/************** UTILITY FUNCTIONS **************/
+LinkedListNode.toArray = (head) => {
+    let array = [];
+
+    while(head) {
+        array.push(head.value);
+        head = head.next;
+    }
+
+    return array;
+}
+
+LinkedListNode.print = (head) => {
+    let current = head;
+    while(current) {
+        console.log(current.value);
+        current = current.next;
     }
 }
 
-module.exports.LinkedListNode = LinkedListNode;
-module.exports = LinkedList;
+module.exports = LinkedListNode;

@@ -1,6 +1,7 @@
-const LinkedList = require('./src/LinkedList');
+const LinkedListNode = require('./src/LinkedList');
 
-const list = LinkedList.fromArray([3,2,0,-4]);
 
-console.log(list);
-console.log(list.toArray());
+const input = LinkedListNode.fromArray([1, 2, 3, 3, 1, 2, 5]);
+
+LinkedListNode.removeDupsWithExtraBuffer(input)
+console.log(LinkedListNode.toArray(input));
