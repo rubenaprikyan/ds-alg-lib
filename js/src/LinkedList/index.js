@@ -5,21 +5,34 @@ function LinkedListNode(value = 0, next = null) {
     this.next  = next;
 }
 
-/**
- * function search
- * finds the first element width value {value}, if can not be found it returns -1
- * Time Complexity in worst case is O(n) - where n is depth of the list
- * @param value
- * @returns {null}
- */
-LinkedListNode.prototype.search = function(value) {
-    let current = { ...this };
+/************** UTILITY FUNCTIONS **************/
 
-    while(current !== null && current.value !== value) {
-        current = current.next;
+/**
+ *
+ * @param head
+ * @returns {[]}
+ */
+LinkedListNode.toArray = (head) => {
+    let array = [];
+
+    while(head) {
+        array.push(head.value);
+        head = head.next;
     }
 
-    return current;
+    return array;
+}
+
+/**
+ *
+ * @param head
+ */
+LinkedListNode.print = (head) => {
+    let current = head;
+    while(current) {
+        console.log(current.value);
+        current = current.next;
+    }
 }
 
 /**
@@ -55,7 +68,8 @@ LinkedListNode.fromReverseArray = (arr) => {
 
     return root;
 }
-LinkedListNode.prototype.hasCycle = function() {}
+
+/************** ALGORITHMS **************/
 
 /**
  * @static function removeDupsWithExtraBuffer, using extra buffer
@@ -70,24 +84,24 @@ LinkedListNode.removeDupsWithExtraBuffer = (head) => {
     let prev = null;
 
     while(head) {
-       if (set.has(head.value)) {
-           // remove current node from the list
-           prev.next = head.next;
-       } else {
-           set.add(head.value);
-           prev = head;
-       }
+        if (set.has(head.value)) {
+            // remove current node from the list
+            prev.next = head.next;
+        } else {
+            set.add(head.value);
+            prev = head;
+        }
 
-       head = head.next;
+        head = head.next;
     }
 
     return head;
 }
 
 /**
- * @static function removeDupsWithoutExtraBuffer, using extra buffer
+ * @static function removeDupsWithoutExtraBuffer, without using extra space
  * removes all duplicates from the list
- * The Time Complexity is O(n), come to the solution with a single pass
+ * The Time Complexity is O(n^2), come to the solution with a nested pass
  * The Space Complexity is O(1)
  * @param head - the head of list
  * @returns <LinkedListNode> - head - without duplicates
@@ -111,26 +125,5 @@ LinkedListNode.removeDupsWithExtraBuffer = (head) => {
     return current;
 }
 
-
-
-/************** UTILITY FUNCTIONS **************/
-LinkedListNode.toArray = (head) => {
-    let array = [];
-
-    while(head) {
-        array.push(head.value);
-        head = head.next;
-    }
-
-    return array;
-}
-
-LinkedListNode.print = (head) => {
-    let current = head;
-    while(current) {
-        console.log(current.value);
-        current = current.next;
-    }
-}
 
 module.exports = LinkedListNode;
