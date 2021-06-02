@@ -3,6 +3,10 @@
 function LinkedListNode(value = 0, next = null) {
     this.value = value;
     this.next  = next;
+
+    this.setNext = function(next) {
+        this.next = next;
+    }
 }
 
 /************** UTILITY FUNCTIONS **************/
@@ -125,5 +129,154 @@ LinkedListNode.removeDupsWithExtraBuffer = (head) => {
     return current;
 }
 
+/**
+ * If the pointer one went through k element, then the pointer two starts iteration, the second pointer will iterate n -k time, and will stop on the kth element from last
+ * @param head
+ * @param k
+ * @returns {null|((value?: any) => Promise<IteratorResult<any>>)|((...args: [] | [any]) => IteratorResult<any, any>)|((...args: [] | [undefined]) => IteratorResult<any, any>)|((...args: [] | [undefined]) => Promise<IteratorResult<any, any>>)|((...args: [] | [any]) => Promise<IteratorResult<any, any>>)}
+ */
+LinkedListNode.findKthToLastIterative = (head, k) => {
+    let p2 = head;
+    let p1 = head;
+
+    for (let i = 1; i <= k; i++) {
+        if(!p1) {
+            return null;
+        }
+        p1 = p1.next;
+    }
+
+    while (p1) {
+        p1 = p1.next;
+        p2 = p2.next;
+    }
+
+    return p2;
+}
+
+function addNext(current, next) {
+    if(current) {
+        current.next = next;
+    } else {
+        current = next;
+    }
+
+    return current;
+}
+
+LinkedListNode.partition = (head, x) => {
+    let current = head;
+    let beforeStart = null;
+    let beforeEnd = null;
+    let afterStart = null;
+    let afterEnd = null;
+
+    while(current) {
+        const newNode = new LinkedListNode(current.value, null);
+        let next = current.next;
+        if(current.value < x) {
+            if(!beforeStart) {
+                beforeStart = current;
+                beforeEnd = beforeStart;
+            } else {
+                beforeEnd.next = current;
+                beforeEnd = current;
+            }
+        } else {
+            if(!afterStart) {
+                afterStart = current;
+                afterEnd = afterStart;
+            } else {
+                afterEnd.next = current;
+                afterEnd = current;
+            }
+        }
+        current = next;
+
+        if(beforeStart == null) {
+            return afterStart;
+        }
+        beforeEnd.next = afterStart;
+
+        return beforeEnd;
+    }
+
+    return LinkedListNode.fromArray([...part1, ...part2]);
+}
+
+LinkedListNode.sum = (l1, l2) => {
+    let remember = 0;
+    let lResponse = null;
+
+    while(l1 && l2) {
+        let digitSum = l1.value + l2.value; // 10
+        let mod = remember;
+
+        if(digitSum > 9) {
+            remember = 1;
+            mod += digitSum - 10;
+        } else {
+            remember = 0;
+            mod += digitSum;
+        }
+
+        let node = new LinkedListNode(mod);
+        node.next = lResponse;
+        lResponse = node;
+
+        // set current pointers to next
+        l1 = l1.next;
+        l2 = l2.next;
+    }
+
+    return lResponse;
+}
+LinkedListNode.prototype.get = function(index) {
+    let counter = 0;
+    let current = this;
+
+    while(current) {
+        if(counter === index) return current;
+
+        counter++;
+        current = current.next;
+    }
+
+    return null;
+};
+
+LinkedListNode.prototype.addAtHead = function(val) {
+    let next = { ...this };
+    this.value = val || 0;
+    this.next = next;
+};
+
+LinkedListNode.prototype.addTail = function(val) {
+    let current = this;
+    while(current.next) {
+        current = current.next;
+    }
+    current.next = new LinkedListNode(val);
+}
+
+LinkedListNode.prototype.addAtIndex = function(index, val) {
+    let head = this.get(index);
+    if(head) {
+        head.addAtHead(val);
+    }
+}
+
+LinkedListNode.prototype.deleteAtIndex = function(index) {
+    let head = this.get(index);
+    if(head) {
+        LinkedListNode.deleteNode(head);
+    }
+}
+
+LinkedListNode.deleteNode = (node) => {
+    let next = node.next;
+    node.value = next.value;
+    node.next = next.next;
+};
 
 module.exports = LinkedListNode;
