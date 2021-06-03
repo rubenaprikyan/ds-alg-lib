@@ -1,3 +1,5 @@
+'use strict';
+
 function StackIsEmptyException(message = "Empty Stack Operation", ...args) {
     let tmp = Error.apply(this, { message, ...args })
     tmp.name = this.name = 'StackIsEmptyException'
@@ -20,12 +22,14 @@ function StackNode(data) {
 
 function Stack() {
     this.top = null;
+    this.size = 0;
 }
 
 Stack.prototype.push = function(data) {
     let newItem = new StackNode(data);
     newItem.next = this.top;
     this.top = newItem;
+    this.size++;
 }
 
 Stack.prototype.pop = function() {
@@ -34,6 +38,7 @@ Stack.prototype.pop = function() {
     }
     const data = this.top.data;
     this.top = this.top.next;
+    this.size--;
 
     return data;
 }
@@ -48,6 +53,10 @@ Stack.prototype.peek = function() {
 
 Stack.prototype.isEmpty = function() {
     return !this.top;
+}
+
+Stack.prototype.getSize = function() {
+    return this.size;
 }
 
 module.exports = Stack;
