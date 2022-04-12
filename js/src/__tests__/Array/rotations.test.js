@@ -1,5 +1,5 @@
 const chai = require("chai");
-const { rotateWithExtraSpace } = require("./rotations");
+const { rotateWithExtraSpace } = require("../../Array/rotations");
 
 describe("Array rotations using temp array ", () => {
   it("It should rotateWithExtraSpace array by 2", () => {
