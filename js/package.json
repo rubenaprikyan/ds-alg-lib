@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "Ruben Aprikyan",
   "license": "ISC",
@@ -13,5 +13,10 @@
     "eslint": "^7.27.0",
     "eslint-plugin-prettier": "^3.4.0",
     "prettier": "2.3.0"
+  },
+  "dependencies": {
+    "chai": "^4.3.6",
+    "eslint-config-prettier": "^8.5.0",
+    "mocha": "^9.2.2"
   }
 }

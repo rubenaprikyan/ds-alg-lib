@@ -1,7 +1,7 @@
 /**
  * Initialize your data structure here.
  */
-var MyLinkedList = function(val, next) {
+const MyLinkedList = function(val, next) {
     this.val = val || 0;
     this.next = next || null;
 };
