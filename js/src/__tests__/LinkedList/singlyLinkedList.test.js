@@ -48,3 +48,17 @@ describe("[SinglyLinkedList]", () => {
     chai.expect(linkedList).deep.equal([4, 3, 2, 1]);
   });
 });
+
+describe("[Basic operations]", () => {
+  const mockSinglyLinkedList = {
+    data: 1,
+    next: { data: 2, next: { data: 3, next: { data: 4, next: null } } },
+  };
+
+  it("Should add new node to tail", () => {
+    const linkedList = SinglyLinkedList.fromArray([1, 2, 3]);
+    SinglyLinkedList.addTail(linkedList, 4);
+
+    chai.expect(mockSinglyLinkedList).deep.equal(linkedList);
+  });
+});

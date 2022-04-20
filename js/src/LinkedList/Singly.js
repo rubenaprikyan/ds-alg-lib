@@ -49,4 +49,12 @@ SinglyLinkedList.toReverseArray = function (root) {
   return arr.reverse();
 };
 
+SinglyLinkedList.addTail = function (root, value) {
+  let current = root;
+  while (current.next) {
+    current = current.next;
+  }
+  current.next = new SinglyLinkedList(value, null);
+};
+
 module.exports = SinglyLinkedList;
